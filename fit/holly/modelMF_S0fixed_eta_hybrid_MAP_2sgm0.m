@@ -1,4 +1,4 @@
-function [nMAP, nLogL, mo, logL] = modelMF_S0fixed_eta_thomp4param_MAP_2sgm0(param_val,param_names,sID,settings,data,gameIDs, prior)
+function [nMAP, nLogL, mo, logL] = modelMF_S0fixed_eta_hybrid_MAP_2sgm0(param_val,param_names,sID,settings,data,gameIDs, prior)
 
 
 %% fill in missing input arguments
@@ -73,7 +73,7 @@ nLogL = sum(sum(logL)) * -1;
 
 %% load priors and define densities
 
-param_names = {'sgm0', 'sgm0', 'Q0','xi', 'xi', 'eta', 'eta'};
+param_names = {'Q0' 'gamma' 'gamma' 'tau' 'tau' 'xi'  'xi' 'sgm0' 'sgm0' 'eta' 'eta' 'w_hyb'};
 p_params = {prior(:).name}; params_prior = [];
 for p = 1:length(param_names)
     % get equivalend

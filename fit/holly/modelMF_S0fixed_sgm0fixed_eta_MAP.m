@@ -1,4 +1,4 @@
-function [nMAP, nLogL, mo, logL] = modelMF_S0fixed_eta_thomp4param_MAP_2sgm0(param_val,param_names,sID,settings,data,gameIDs, prior)
+function [nMAP, nLogL, mo, logL] = modelMF_S0fixed_sgm0fixed_eta_MAP(param_val,param_names,sID,settings,data,gameIDs, prior)
 
 
 %% fill in missing input arguments
@@ -8,7 +8,7 @@ end
 
 
 %% initialise model
-mo = initialise_model_MF_S0fixed_eta_2sgm0(settings);
+mo = initialise_model_MF_S0fixed_sgm0fixed_eta(settings);
 
 %% fill in parameters, model-funs etc
 mo = prep_model_MF(mo,settings,param_val,param_names);
@@ -27,7 +27,7 @@ for c = 1:settings.task.N_hor
         
         % replication of previous game, and no learning enabled
         if g_idx < g && mo.params.Q0((c-1)*settings.task.Ngames_per_hor+g)==mo.params.Q0((c-1)*settings.task.Ngames_per_hor+g_idx)
-            
+                        
             % copy matrices from first game
             fn = fieldnames(mo.mat);
             for t = 1:length(fn)
@@ -38,7 +38,7 @@ for c = 1:settings.task.N_hor
             
             % calc logL based on choice
             idx_chosen = data(c,g).chosen;
-            
+                      
             %%%% Added
             if data(c,g).unshown_tree == 1
                 tree_vec = [2, 3, 4];
@@ -57,23 +57,25 @@ for c = 1:settings.task.N_hor
             logL(c,g) = log(pi_chos); % Changed
             
         else
-        
+                    
             % data
             clear tmp_dat
             tmp_dat = data(c,g);
         
             % compute model game
-            [logL(c,g),mo] = model_game_MF_2sgm0(mo,tmp_dat,c,g,settings.opts.TLT);
+            [logL(c,g),mo] = model_game_MF(mo,tmp_dat,c,g,settings.opts.TLT);  
+                        
         end
     end
 end
 
+
 %% calculate LogLikelihood
-nLogL = sum(sum(logL)) * -1;
+nLogL = sum(sum(logL)) * -1; % nLogL is >0
 
 %% load priors and define densities
 
-param_names = {'sgm0', 'sgm0', 'Q0','xi', 'xi', 'eta', 'eta'};
+param_names = {'Q0','gamma', 'gamma', 'tau', 'tau', 'xi', 'xi','eta','eta'};
 p_params = {prior(:).name}; params_prior = [];
 for p = 1:length(param_names)
     % get equivalend

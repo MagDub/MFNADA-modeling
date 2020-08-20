@@ -4,8 +4,8 @@ function fit_mod12_like_param_recovery_2sgm0_prior1normal(ID, data_fol)
     results_dir = strcat(data_fol, '/modelfit/',algo,'/results/');
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    param_bounds_sgm0 = [0.01,6];
     param_bounds_Q0 = [1,10]; 
+    param_bounds_sgm0 = [0.01,6];
     param_bounds_xi = [10^-8,0.5];  
     param_bounds_eta = [0,5];
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -31,7 +31,7 @@ function fit_mod12_like_param_recovery_2sgm0_prior1normal(ID, data_fol)
     [data,gameIDs] = aggregateData(ID,data_dir);
 
     % prior
-    load(strcat(data_fol,'/modelfit/priors/thompson_4params_sgm0_xi_eta_uni/empirical_prior.mat'),'prior') 
+    load(strcat(data_fol,'/modelfit/priors/thompson_q0_norm/empirical_prior.mat'),'prior') 
 
     % fit model
     modelfunLL = @(x) modelMF_S0fixed_eta_2sgm0(x,settings.params.param_names,ID,settings,data,gameIDs);
