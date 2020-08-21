@@ -69,9 +69,10 @@ function fit_mod4_hybrid_7param_MAP(ID, data_fol)
     [mEMAP, ind]= min(mEmatMAP);
     mEparams  = mEmatparams(ind,:);
     mEexitflag = mEexitflag(ind);
-    
-    [mEmle, ~, ~] = modelfunLL(mEparams); %find likelihood
-    
+    mEprior = prior;
+
+    [mEmle, ~, ~] = modelfunLL(mEparams); %find likelihood 
+
     if ~exist(results_dir)
         mkdir(results_dir)
     end
