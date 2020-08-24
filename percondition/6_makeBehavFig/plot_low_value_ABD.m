@@ -99,12 +99,14 @@ xlim([0 4.5])
 set(gca,'XTick',[0.75 2.25 3.75])
 set(gca,'XTickLabel',{'Noradrenaline','Placebo', 'Dopamine'})
 
+max(max(pickedlow_ABD_SH, pickedlow_ABD_LH))
+
 ylabel('Proportion of draws [%]','FontName','Arial','Fontweight','bold','FontSize',12);
 set(gca,'YTick',0:2:100)
-ylim([0 max(max(pickedlow_ABD_SH),max(pickedlow_ABD_LH))])
+ylim([0 7])
 
 % Export
-addpath('../../figures/export_fig')
+addpath('../../../export_fig')
 export_fig(['./fig/Fig_behaviour_low_value_ABD.tif'],'-nocrop','-r200')
 
 

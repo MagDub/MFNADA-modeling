@@ -2,7 +2,7 @@
 addpath('./holly/')
 data_fol = ('../../../data');
 
-for ID=501 %502:560
+for ID=502:560
     
     disp(ID)
     
@@ -12,7 +12,7 @@ for ID=501 %502:560
     
     fit_mod12_AB(ID, data_fol);
     fit_mod12_ABD(ID, data_fol);
-    %fit_mod12_BD(ID, data_fol);
-    %fit_mod12_AD(ID, data_fol);
+    fit_mod12_BD(ID, data_fol);
+    fit_mod12_AD(ID, data_fol);
     
 end

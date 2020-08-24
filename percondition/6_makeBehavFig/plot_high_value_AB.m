@@ -12,7 +12,6 @@ save('./frequencies/pickedhigh_AB_LH.mat', 'pickedhigh_AB_LH')
 save('../../../data/data_for_figs/pickedhigh_AB_SH.mat', 'pickedhigh_AB_SH')
 save('../../../data/data_for_figs/pickedhigh_AB_LH.mat', 'pickedhigh_AB_LH')
 
-
 % Drugs
 load(strcat(data_fold, 'data_for_figs/drug_code.mat')) %0: placebo, 1:amisulpride, 2:propranolol
 idx_plc = find(drug_code(:,2)==0);
@@ -94,11 +93,13 @@ set(h,'Marker','none')
 
 xlim([0 4.5])   
 set(gca,'XTick',[0.75 2.25 3.75])
-set(gca,'XTickLabel',{'NorABrenaline','Placebo', 'Dopamine'})
+set(gca,'XTickLabel',{'Noradrenaline','Placebo', 'Dopamine'})
+
+max(max(pickedhigh_AB_SH, pickedhigh_AB_LH))
 
 ylabel('Proportion of draws [%]','FontName','Arial','Fontweight','bold','FontSize',12);
 set(gca,'YTick',0:5:100)
-ylim([0 max(max(pickedhigh_AB_SH),max(pickedhigh_AB_LH))])
+ylim([0 26])
 
 % Export
 addpath('../../figures/export_fig')

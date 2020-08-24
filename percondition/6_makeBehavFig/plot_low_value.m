@@ -104,7 +104,7 @@ set(gca,'YTick',0:5:100)
 ylim([0 max(max(pickedlow_SH),max(pickedlow_LH))])
 
 % Export
-addpath('../../figures/export_fig')
+addpath('../../../export_fig')
 export_fig(['./fig/Fig_behaviour_low_value.tif'],'-nocrop','-r200')
 
 

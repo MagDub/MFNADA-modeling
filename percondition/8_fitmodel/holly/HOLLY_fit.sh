@@ -8,7 +8,7 @@
 
 # where to find basic custom functions
 # where to find scripts for this job
-model_path=/home/mdubois/scripts/MFnada/MFNADA-Modeling/fit/holly
+model_path=/home/mdubois/scripts/MFnada/MFNADA-Modeling/percondition/8_fitmodel/holly
 
 # Run Matlab
 # matlab_command="addpath('$model_path');global jobId;jobId=$SGE_TASK_ID;"
