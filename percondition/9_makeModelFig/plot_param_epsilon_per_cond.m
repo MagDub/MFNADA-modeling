@@ -11,6 +11,9 @@ function [] = plot_param_epsilon_per_cond(cond)
     ind_LH = find(contains(model_parameters_desc,'xi_long'));
     param_SH = model_parameters(:,ind_SH);
     param_LH = model_parameters(:,ind_LH);
+    
+    save(strcat('./params/param_epsilon_SH_', cond, '.mat'), 'param_SH');
+    save(strcat('./params/param_epsilon_LH_', cond, '.mat'), 'param_LH');
 
     % Drugs
     load(strcat(data_fold, 'data_for_figs/drug_code.mat')) %0: placebo, 1:amisulpride, 2:propranolol
