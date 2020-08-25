@@ -11,6 +11,12 @@ function [] = plot_param_sgm0_per_cond(cond)
     ind_LH = find(contains(model_parameters_desc,'sgm0_long'));
     param_SH = model_parameters(:,ind_SH);
     param_LH = model_parameters(:,ind_LH);
+    
+    param_sgm0_SH = param_SH;
+    param_sgm0_LH = param_LH;
+        
+    save(strcat('./params/param_sgm0_', cond, '_SH.mat'), 'param_sgm0_SH');
+    save(strcat('./params/param_sgm0_', cond, '_LH.mat'), 'param_sgm0_LH');
 
     % Drugs
     load(strcat(data_fold, 'data_for_figs/drug_code.mat')) %0: placebo, 1:amisulpride, 2:propranolol

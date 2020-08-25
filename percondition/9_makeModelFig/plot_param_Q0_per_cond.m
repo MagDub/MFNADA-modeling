@@ -9,6 +9,10 @@ function [] = plot_param_Q0_per_cond(cond)
     load(strcat(data_folder, 'concatenated_',cond,'/model_parameters_desc.mat'));
     ind = find(contains(model_parameters_desc,'Q0'));
     param = model_parameters(:,ind);
+        
+    param_Q0 = param;
+    
+    save(strcat('./params/param_Q0_', cond, '.mat'), 'param_Q0');
 
     %% Drugs
     load(strcat(data_fold, 'data_for_figs/drug_code.mat')) %0: placebo, 1:amisulpride, 2:propranolol
