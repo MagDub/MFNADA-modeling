@@ -1,4 +1,4 @@
-function cv_mod13_heuristics(ID, data_fol)
+function HOLLY_cv_mod13(ID, data_fol)
 
     %%%%%%% k-fold validation indexes %%%%%%%
     tot_trials = 200;
@@ -26,10 +26,9 @@ function cv_mod13_heuristics(ID, data_fol)
 
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         param_bounds_Q0 = [1,10]; 
-        param_bounds_xi = [10^-8,0.5]; 
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-        algo = 'mod_13';        
+        algo = 'mod_13'; % just an argmax       
         
         results_dir = strcat(data_fol, '/crossval/',algo,'/results/'); 
         
@@ -44,14 +43,14 @@ function cv_mod13_heuristics(ID, data_fol)
         settings.task.Ngames_per_hor    = settings.task.N_games / settings.task.N_hor;
         settings.task.N_trees           = 3;
         settings.opts.TLT               = [];
-        settings.funs.decfun            = @argmax_new;
+        settings.funs.decfun            = @argmax;
         settings.funs.valuefun          = @heuristics;
         settings.funs.priorfun          = [];
         settings.funs.learningfun       = @kalman_filt;
         settings.desc                   = ['heuristics'];    
-        settings.params.param_names     = {'Q0','xi', ''};   
-        settings.params.lb              = [param_bounds_Q0(1)  param_bounds_xi(1) param_bounds_xi(1)];    
-        settings.params.ub              = [param_bounds_Q0(2)  param_bounds_xi(2) param_bounds_xi(2)];    
+        settings.params.param_names     = {'Q0'};   
+        settings.params.lb              = [param_bounds_Q0(1)];    
+        settings.params.ub              = [param_bounds_Q0(2)];    
 
         
         %% get data
@@ -70,17 +69,18 @@ function cv_mod13_heuristics(ID, data_fol)
         a = settings.params.lb;
         b = settings.params.ub;
         
-        mEmatparams = nan(8,3);
+        mEmatparams = nan(8,1);
         mEmatmle = nan(8,1);
         mEexitflag = nan(8,1);
        
-        parfor iter=1:8
-        % starting point
-            xo_fmincon = (b-a).*rand(1,1) + a; % random value in this interval     
+        for iter=1:8
+            xo_fmincon = (b-a).*rand(1,1) + a;% random value in this interval
+                        
             [mEparams, mEmle, mEexitflag] = fmincon(modelfun,...
                 xo_fmincon,[],[],[],[],...
                 settings.params.lb,settings.params.ub,...
                 [],options);
+                        
             mEmatparams(iter,:) = mEparams;
             mEmatmle(iter,:) = mEmle;
             mEexitflag(iter,:) = mEexitflag;
