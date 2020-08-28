@@ -65,18 +65,18 @@ mat_mean_SEM_tree_novel = [mean_SEM_tree_novel(:,1) mean_SEM_tree_novel(:,3) mea
 mat_mean_SEM_tree_low = [mean_SEM_tree_low(:,1) mean_SEM_tree_low(:,3) mean_SEM_tree_low(:,5); ...
                             mean_SEM_tree_low(:,2) mean_SEM_tree_low(:,4) mean_SEM_tree_low(:,6)];
     
-save('D:\writing\MF\data_for_figs\sim_behav_bin_xi\mat_mean_SEM_consistency.mat', 'mat_mean_SEM_consistency');    
-save('D:\writing\MF\data_for_figs\sim_behav_bin_xi\mat_mean_SEM_tree_high.mat', 'mat_mean_SEM_tree_high');  
-save('D:\writing\MF\data_for_figs\sim_behav_bin_xi\mat_mean_SEM_tree_medium.mat', 'mat_mean_SEM_tree_medium');  
-save('D:\writing\MF\data_for_figs\sim_behav_bin_xi\mat_mean_SEM_tree_novel.mat', 'mat_mean_SEM_tree_novel');  
-save('D:\writing\MF\data_for_figs\sim_behav_bin_xi\mat_mean_SEM_tree_low.mat', 'mat_mean_SEM_tree_low');
-                       
-col=[];
-
-col(1,:) = [0.803921580314636 0.878431379795074 0.968627452850342];
-
-out_dir = 'D:\writing\MF\figs\sim_changing_xi\';
-addpath('D:\writing\export_fig')
+% save('D:\writing\MF\data_for_figs\sim_behav_bin_xi\mat_mean_SEM_consistency.mat', 'mat_mean_SEM_consistency');    
+% save('D:\writing\MF\data_for_figs\sim_behav_bin_xi\mat_mean_SEM_tree_high.mat', 'mat_mean_SEM_tree_high');  
+% save('D:\writing\MF\data_for_figs\sim_behav_bin_xi\mat_mean_SEM_tree_medium.mat', 'mat_mean_SEM_tree_medium');  
+% save('D:\writing\MF\data_for_figs\sim_behav_bin_xi\mat_mean_SEM_tree_novel.mat', 'mat_mean_SEM_tree_novel');  
+% save('D:\writing\MF\data_for_figs\sim_behav_bin_xi\mat_mean_SEM_tree_low.mat', 'mat_mean_SEM_tree_low');
+%                        
+% col=[];
+% 
+% col(1,:) = [0.803921580314636 0.878431379795074 0.968627452850342];
+% 
+% out_dir = 'D:\writing\MF\figs\sim_changing_xi\';
+% addpath('D:\writing\export_fig')
 
 % %% picked A
 % 

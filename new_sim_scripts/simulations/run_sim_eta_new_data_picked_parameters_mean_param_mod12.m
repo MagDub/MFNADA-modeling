@@ -8,9 +8,9 @@ part_num = 200;
 
 eta_range = 0:1:2;
 
-sim_folder = strcat('../../data/sim_prob_mod12/changing_eta/sgm0_',num2str(sgm0_mat),'_Q0_',num2str(Q0_mat),'_xi_',num2str(xi_mat),'/');
+sim_folder = strcat('../../../data/simulation_data/sim_prob_mod12/changing_eta/sgm0_',num2str(sgm0_mat),'_Q0_',num2str(Q0_mat),'_xi_',num2str(xi_mat),'/');
 
-addpath('D:\MaggiesFarm\modeling_28_02\')
+addpath('../../fit/holly/')
 
 for eta_iter = 1:size(eta_range,2)
 
@@ -44,7 +44,7 @@ for eta_iter = 1:size(eta_range,2)
         settings.params.param_names = {'sgm0', '', 'Q0','xi', '', 'eta', ''};   % is same param name as prev, write ''
 
         %% initialise model
-        mo = initialise_model_MF_S0fixed_eta_new(settings);
+        mo = initialise_model_MF_S0fixed_eta_2sgm0(settings);
 
         %% fill in parameters, model-funs etc
         mo = prep_model_MF(mo,settings,para_vals,settings.params.param_names);
@@ -259,13 +259,13 @@ for eta_iter = 1:size(eta_range,2)
         
         eta_file = strcat('etaSH_',num2str(eta_range(eta_iter)),'_etaLH_',num2str(eta_range(eta_iter)+1));
 
-        sim_data_dir = strcat(sim_folder,eta_file,'\participant_',int2str(ID),'\');
+        sim_data_dir = strcat(sim_folder,eta_file,'/participant_',int2str(ID),'/');
         
         if ~exist(sim_data_dir)
             mkdir(sim_data_dir)
         end
         
-        save(strcat(sim_data_dir,'\data.mat'), 'data')
+        save(strcat(sim_data_dir,'/data.mat'), 'data')
         
         [sim_consistency_freq, sim_consistency_freq_desc] = make_consistency_from_sim(sim_data_dir);
 
@@ -275,12 +275,12 @@ for eta_iter = 1:size(eta_range,2)
         sim_prob_choosing_exploit_trees_new_data_desc = {'exploit_SH', 'explore_SH', 'C_SH', 'D_SH', 'exploit_LH', 'explore_LH', 'C_LH', 'D_LH'};
         sim_prob_choosing_exploit_trees_new_data = [pi_SH_average_exploit, pi_LH_average_exploit];
 
-        save(strcat(sim_data_dir,'\sim_consistency_freq.mat'),'sim_consistency_freq');
-        save(strcat(sim_data_dir,'\sim_consistency_freq_desc.mat'),'sim_consistency_freq_desc');
-        save(strcat(sim_data_dir,'\sim_prob_choosing_trees_new_data.mat'),'sim_prob_choosing_trees_new_data');
-        save(strcat(sim_data_dir,'\sim_prob_choosing_trees_new_data_desc.mat'),'sim_prob_choosing_trees_new_data_desc');
-        save(strcat(sim_data_dir,'\sim_prob_choosing_exploit_trees_new_data.mat'),'sim_prob_choosing_exploit_trees_new_data');
-        save(strcat(sim_data_dir,'\sim_prob_choosing_exploit_trees_new_data_desc.mat'),'sim_prob_choosing_exploit_trees_new_data_desc');
+        save(strcat(sim_data_dir,'/sim_consistency_freq.mat'),'sim_consistency_freq');
+        save(strcat(sim_data_dir,'/sim_consistency_freq_desc.mat'),'sim_consistency_freq_desc');
+        save(strcat(sim_data_dir,'/sim_prob_choosing_trees_new_data.mat'),'sim_prob_choosing_trees_new_data');
+        save(strcat(sim_data_dir,'/sim_prob_choosing_trees_new_data_desc.mat'),'sim_prob_choosing_trees_new_data_desc');
+        save(strcat(sim_data_dir,'/sim_prob_choosing_exploit_trees_new_data.mat'),'sim_prob_choosing_exploit_trees_new_data');
+        save(strcat(sim_data_dir,'/sim_prob_choosing_exploit_trees_new_data_desc.mat'),'sim_prob_choosing_exploit_trees_new_data_desc');
         
     end
 

@@ -30,7 +30,7 @@ for eta_iter = 1:size(eta_range,2)
         
         eta_file = strcat('etaSH_',num2str(eta_range(eta_iter)),'_etaLH_',num2str(eta_range(eta_iter)+1));
 
-        sim_data_dir = strcat(sim_folder,eta_file,'\participant_',int2str(ID),'\');
+        sim_data_dir = strcat(sim_folder,eta_file,'/participant_',int2str(ID),'/');
         
         tmp_const = load(strcat(sim_data_dir,'sim_consistency_freq.mat'));
         
@@ -79,13 +79,13 @@ mat_mean_SEM_tree_standard_certain = [mean_SEM_tree_standard_certain(:,1) mean_S
 mat_mean_SEM_tree_standard = [mean_SEM_tree_standard(:,1) mean_SEM_tree_standard(:,3) mean_SEM_tree_standard(:,5); ...
     mean_SEM_tree_standard(:,2) mean_SEM_tree_standard(:,4) mean_SEM_tree_standard(:,6)];
 
-% save('D:\writing\MF\data_for_figs\sim_behav_bin_eta\mat_mean_SEM_consistency.mat', 'mat_mean_SEM_consistency');    
-% save('D:\writing\MF\data_for_figs\sim_behav_bin_eta\mat_mean_SEM_tree_high.mat', 'mat_mean_SEM_tree_high');  
-% save('D:\writing\MF\data_for_figs\sim_behav_bin_eta\mat_mean_SEM_tree_medium.mat', 'mat_mean_SEM_tree_medium');  
-% save('D:\writing\MF\data_for_figs\sim_behav_bin_eta\mat_mean_SEM_tree_novel.mat', 'mat_mean_SEM_tree_novel');  
-% save('D:\writing\MF\data_for_figs\sim_behav_bin_eta\mat_mean_SEM_tree_low.mat', 'mat_mean_SEM_tree_low'); 
-% save('D:\writing\MF\data_for_figs\sim_behav_bin_eta\mat_mean_SEM_tree_standard_certain.mat', 'mat_mean_SEM_tree_standard_certain');  
-% save('D:\writing\MF\data_for_figs\sim_behav_bin_eta\mat_mean_SEM_tree_standard.mat', 'mat_mean_SEM_tree_standard'); 
+save('../../../data/simulation_data/sim_prob_mod12/changing_eta/sgm0_1.312_Q0_3.2_xi_0.1/mat_mean_SEM_consistency.mat', 'mat_mean_SEM_consistency');    
+save('../../../data/simulation_data/sim_prob_mod12/changing_eta/sgm0_1.312_Q0_3.2_xi_0.1/mat_mean_SEM_tree_high.mat', 'mat_mean_SEM_tree_high');  
+save('../../../data/simulation_data/sim_prob_mod12/changing_eta/sgm0_1.312_Q0_3.2_xi_0.1/mat_mean_SEM_tree_medium.mat', 'mat_mean_SEM_tree_medium');  
+save('../../../data/simulation_data/sim_prob_mod12/changing_eta/sgm0_1.312_Q0_3.2_xi_0.1/mat_mean_SEM_tree_novel.mat', 'mat_mean_SEM_tree_novel');  
+save('../../../data/simulation_data/sim_prob_mod12/changing_eta/sgm0_1.312_Q0_3.2_xi_0.1/mat_mean_SEM_tree_low.mat', 'mat_mean_SEM_tree_low'); 
+save('../../../data/simulation_data/sim_prob_mod12/changing_eta/sgm0_1.312_Q0_3.2_xi_0.1/mat_mean_SEM_tree_standard_certain.mat', 'mat_mean_SEM_tree_standard_certain');  
+save('../../../data/simulation_data/sim_prob_mod12/changing_eta/sgm0_1.312_Q0_3.2_xi_0.1/mat_mean_SEM_tree_standard.mat', 'mat_mean_SEM_tree_standard'); 
                                                
 col=[];
 
@@ -159,53 +159,53 @@ col(1,:) = [0.803921580314636 0.878431379795074 0.968627452850342];
 % xticklabels({'Low','High'});
 % yticks(0:15:75)
 % 
-% export_fig([out_dir 'Fig_novel_bin.tif'],'-nocrop','-r200')
+% % export_fig([out_dir 'Fig_novel_bin.tif'],'-nocrop','-r200')
 % 
-% %% picked D
+% % %% picked D
+% % 
+% % figure('Color','w');
+% % set(gcf,'Unit','centimeters','OuterPosition',[0 0 8 8]);
+% % set(gca,'FontName','Arial','FontSize',9)
+% % hold on
+% % 
+% % bar(mat_mean_SEM_tree_low([1 3],1),mat_mean_SEM_tree_low([1 3],2),'FaceColor',col, 'FaceAlpha', 1, 'BarWidth',0.8); hold on;
+% % errorbar(mat_mean_SEM_tree_low([1 3],1),mat_mean_SEM_tree_low([1 3],2),mat_mean_SEM_tree_low([1 3],3),'.','color','k', 'LineWidth',0.8);
+% % 
+% % ylabel('Proportion of draws [%]','FontName','Arial','Fontweight','bold','FontSize',9);
+% % xlabel('Novelty exploration')          
+% % title('Low-value bandit')
+% % 
+% % ylim([0 15.5])
+% % xlim([-1.5 3.5])
+% % xticks([0 2])
+% % xticklabels({'Low','High'});
+% % yticks(0:5:20)
+% % 
+% % export_fig([out_dir 'Fig_low_value_bin.tif'],'-nocrop','-r200')
+% % 
+% %% consistency
 % 
 % figure('Color','w');
 % set(gcf,'Unit','centimeters','OuterPosition',[0 0 8 8]);
 % set(gca,'FontName','Arial','FontSize',9)
 % hold on
 % 
-% bar(mat_mean_SEM_tree_low([1 3],1),mat_mean_SEM_tree_low([1 3],2),'FaceColor',col, 'FaceAlpha', 1, 'BarWidth',0.8); hold on;
-% errorbar(mat_mean_SEM_tree_low([1 3],1),mat_mean_SEM_tree_low([1 3],2),mat_mean_SEM_tree_low([1 3],3),'.','color','k', 'LineWidth',0.8);
+% bar(mat_mean_SEM_consistency([1 3],1),mat_mean_SEM_consistency([1 3],2),'FaceColor',col, 'FaceAlpha', 1, 'BarWidth',0.8); hold on;
+% errorbar(mat_mean_SEM_consistency([1 3],1),mat_mean_SEM_consistency([1 3],2),mat_mean_SEM_consistency([1 3],3),'.','color','k', 'LineWidth',0.8);
 % 
-% ylabel('Proportion of draws [%]','FontName','Arial','Fontweight','bold','FontSize',9);
+% ylabel('Proportion of same choices [%]','FontName','Arial','Fontweight','bold','FontSize',9);
 % xlabel('Novelty exploration')          
-% title('Low-value bandit')
+% title('Consistency')
 % 
-% ylim([0 15.5])
+% ylim([34 89])
 % xlim([-1.5 3.5])
 % xticks([0 2])
 % xticklabels({'Low','High'});
-% yticks(0:5:20)
+% yticks(30:10:100)
+% set(gca,'YTick',30:10:100)
 % 
-% export_fig([out_dir 'Fig_low_value_bin.tif'],'-nocrop','-r200')
-% 
-%% consistency
-
-figure('Color','w');
-set(gcf,'Unit','centimeters','OuterPosition',[0 0 8 8]);
-set(gca,'FontName','Arial','FontSize',9)
-hold on
-
-bar(mat_mean_SEM_consistency([1 3],1),mat_mean_SEM_consistency([1 3],2),'FaceColor',col, 'FaceAlpha', 1, 'BarWidth',0.8); hold on;
-errorbar(mat_mean_SEM_consistency([1 3],1),mat_mean_SEM_consistency([1 3],2),mat_mean_SEM_consistency([1 3],3),'.','color','k', 'LineWidth',0.8);
-
-ylabel('Proportion of same choices [%]','FontName','Arial','Fontweight','bold','FontSize',9);
-xlabel('Novelty exploration')          
-title('Consistency')
-
-ylim([34 89])
-xlim([-1.5 3.5])
-xticks([0 2])
-xticklabels({'Low','High'});
-yticks(30:10:100)
-set(gca,'YTick',30:10:100)
-
-% 
-% export_fig([out_dir 'Fig_consistency_bin.tif'],'-nocrop','-r200')
+% % 
+% % export_fig([out_dir 'Fig_consistency_bin.tif'],'-nocrop','-r200')
 
 
 

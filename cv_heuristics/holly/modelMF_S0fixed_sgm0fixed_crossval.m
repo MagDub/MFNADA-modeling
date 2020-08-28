@@ -31,15 +31,9 @@ function [nLogL, mo, logL] = modelMF_S0fixed_sgm0fixed_crossval(param_val,param_
 
         end
     end
-
-    % replace inf values
-    logL(isinf(logL)) = -realmax;
     
     %% calculate LogLikelihood
     nLogL = sum(sum(logL)) * -1;
-    
-    nLogL(isinf(nLogL)) = realmax/(10^10);
-    
-
+        
 end
 

@@ -48,7 +48,13 @@ function [logL,mo] = model_game_MF(mo,data,idx_hor,idx_g,TLT)
     tmp_mo_pi = nanmean(mo.mat.pi{idx_hor,idx_g},2); %the policy is not always in the last column
         
     pi_chos = tmp_mo_pi(idx_chosen_tmp); 
+    
+    if pi_chos == 1
+        pi_chos = 1-2*realmin;
+    elseif pi_chos == 0
+        pi_chos = realmin;
+    end
 
     logL = log(pi_chos);
-    
+        
 end

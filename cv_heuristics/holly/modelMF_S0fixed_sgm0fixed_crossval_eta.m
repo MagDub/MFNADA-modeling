@@ -35,12 +35,8 @@ function [nLogL, mo, logL] = modelMF_S0fixed_sgm0fixed_crossval_eta(param_val,pa
             [logL(c,g),mo] = model_game_MF(mo,tmp_dat,c,g,settings.opts.TLT);
         end
     end
-
-    % replace inf values
-    logL(isinf(logL)) = -realmax;
     
     %% calculate LogLikelihood
     nLogL = sum(sum(logL)) * -1;
     
-    nLogL(isinf(nLogL)) = realmax/(10^10);
 end
