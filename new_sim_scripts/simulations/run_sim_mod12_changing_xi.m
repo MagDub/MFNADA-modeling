@@ -1,13 +1,7 @@
 
-function [] = run_sim_mod12_changing_xi(sgm0, eta, Q0, xi_range)
-
-    sgm0 = 1.312;
-    eta = 2.625;
-    Q0 = 3.200;
+function [] = run_sim_mod12_changing_xi(sgm0, xi_range, Q0, eta)
 
     part_num = 200;
-
-    xi_range = 0:0.1:1;
 
     sim_folder = strcat('../../../data/simulation_data/sim_prob_mod12/changing_xi/sgm0_',num2str(sgm0),'_Q0_',num2str(Q0),'_eta_',num2str(eta),'/');
 

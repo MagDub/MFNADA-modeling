@@ -1,25 +1,19 @@
 
-function [] = run_sim_mod12_changing_xi(sgm0, eta, Q0, xi_range)
-
-    sgm0 = 1.312;
-    eta = 2.625;
-    Q0 = 3.200;
+function [] = run_sim_mod5_changing_gamma(tau, Q0, gamma_range)
 
     part_num = 200;
 
-    xi_range = 0:0.1:1;
-
-    sim_folder = strcat('../../../data/simulation_data/sim_prob_mod12/changing_xi/sgm0_',num2str(sgm0),'_Q0_',num2str(Q0),'_eta_',num2str(eta),'/');
+    sim_folder = strcat('../../../data/simulation_data/sim_prob_mod5/changing_gamma/tau_',num2str(tau),'_Q0_',num2str(Q0),'/');
 
     addpath('../../fit/holly/')
 
-    for xi_iter = 1:size(xi_range,2)
+    for gamma_iter = 1:size(gamma_range,2)
 
-        xi = xi_range(xi_iter);
+        gamma = gamma_range(gamma_iter);
 
-        para_vals_desc = {'sgm0', 'Q0', 'eta', 'xi'};
+        para_vals_desc = {'tau', 'Q0', 'gamma'};
 
-        para_vals = [sgm0, Q0, eta, xi]; 
+        para_vals = [tau, Q0, gamma]; 
 
         for ID = 1:part_num
 
@@ -31,14 +25,14 @@ function [] = run_sim_mod12_changing_xi(sgm0, eta, Q0, xi_range)
             settings.task.N_trees           = 3; 
             settings.opts.TLT               = [];
             settings.funs.decfun            = @softmax;
-            settings.funs.valuefun          = @mvnorm_Thompson_noveltybonus_new; 
+            settings.funs.valuefun          = @UCB; 
             settings.funs.priorfun          = [];
             settings.funs.learningfun       = @kalman_filt;
             settings.desc                   = ['sim_thompson_noveltybonus' int2str(ID)];    
             settings.params.param_names     = para_vals_desc;   
 
             % initialise model
-            mo = initialise_model_MF_S0fixed_eta_2sgm0(settings);
+            mo = initialise_model_MF_S0fixed_sgm0fixed_eta(settings);
 
             % fill in parameters, model-funs etc
             mo = prep_model_MF(mo,settings,para_vals,settings.params.param_names);
@@ -194,9 +188,9 @@ function [] = run_sim_mod12_changing_xi(sgm0, eta, Q0, xi_range)
 
             pi_SH_average_exploit = nansum(pi_SH_exploit,1)/(settings.task.N_games);
 
-            xi_file = strcat('xi_',num2str(xi_range(xi_iter)));
+            gamma_file = strcat('gamma_',num2str(gamma_range(gamma_iter)));
 
-            sim_data_dir = strcat(sim_folder,xi_file,'/participant_',int2str(ID),'/');
+            sim_data_dir = strcat(sim_folder,gamma_file,'/participant_',int2str(ID),'/');
 
             if ~exist(sim_data_dir)
                 mkdir(sim_data_dir)
@@ -215,15 +209,15 @@ function [] = run_sim_mod12_changing_xi(sgm0, eta, Q0, xi_range)
 
         end
 
-        mat_mean_SEM_consistency(xi_iter,:) = [xi mean(mat_consistency) std(mat_consistency)/sqrt(part_num-1)];
+        mat_mean_SEM_consistency(gamma_iter,:) = [gamma mean(mat_consistency) std(mat_consistency)/sqrt(part_num-1)];
 
-        mat_mean_SEM_tree_high(xi_iter,:) = [xi mean(mat_trees(:,1)) std(mat_trees(:,1))/sqrt(part_num-1)];
-        mat_mean_SEM_tree_medium(xi_iter,:) = [xi mean(mat_trees(:,2)) std(mat_trees(:,2))/sqrt(part_num-1)];
-        mat_mean_SEM_tree_novel(xi_iter,:) = [xi mean(mat_trees(:,3)) std(mat_trees(:,3))/sqrt(part_num-1)];
-        mat_mean_SEM_tree_low(xi_iter,:) = [xi mean(mat_trees(:,4)) std(mat_trees(:,4))/sqrt(part_num-1)];
+        mat_mean_SEM_tree_high(gamma_iter,:) = [gamma mean(mat_trees(:,1)) std(mat_trees(:,1))/sqrt(part_num-1)];
+        mat_mean_SEM_tree_medium(gamma_iter,:) = [gamma mean(mat_trees(:,2)) std(mat_trees(:,2))/sqrt(part_num-1)];
+        mat_mean_SEM_tree_novel(gamma_iter,:) = [gamma mean(mat_trees(:,3)) std(mat_trees(:,3))/sqrt(part_num-1)];
+        mat_mean_SEM_tree_low(gamma_iter,:) = [gamma mean(mat_trees(:,4)) std(mat_trees(:,4))/sqrt(part_num-1)];
 
-        mat_mean_SEM_tree_standard_certain(xi_iter,:) = [xi mean(mat_trees_bandits(:,1)) std(mat_trees_bandits(:,1))/sqrt(part_num-1)];
-        mat_mean_SEM_tree_standard(xi_iter,:) = [xi mean(mat_trees_bandits(:,2)) std(mat_trees_bandits(:,2))/sqrt(part_num-1)];
+        mat_mean_SEM_tree_standard_certain(gamma_iter,:) = [gamma mean(mat_trees_bandits(:,1)) std(mat_trees_bandits(:,1))/sqrt(part_num-1)];
+        mat_mean_SEM_tree_standard(gamma_iter,:) = [gamma mean(mat_trees_bandits(:,2)) std(mat_trees_bandits(:,2))/sqrt(part_num-1)];
 
     end
 

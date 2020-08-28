@@ -1,15 +1,9 @@
 
-function [] = run_sim_mod12_changing_xi(sgm0, eta, Q0, xi_range)
-
-    sgm0 = 1.312;
-    eta = 2.625;
-    Q0 = 3.200;
+function [] = run_sim_mod16_changing_xi(xi_range, Q0, eta)
 
     part_num = 200;
-
-    xi_range = 0:0.1:1;
-
-    sim_folder = strcat('../../../data/simulation_data/sim_prob_mod12/changing_xi/sgm0_',num2str(sgm0),'_Q0_',num2str(Q0),'_eta_',num2str(eta),'/');
+    
+    sim_folder = strcat('../../../data/simulation_data/sim_prob_mod16/changing_xi/Q0_',num2str(Q0),'_eta_',num2str(eta),'/');
 
     addpath('../../fit/holly/')
 
@@ -17,9 +11,9 @@ function [] = run_sim_mod12_changing_xi(sgm0, eta, Q0, xi_range)
 
         xi = xi_range(xi_iter);
 
-        para_vals_desc = {'sgm0', 'Q0', 'eta', 'xi'};
+        para_vals_desc = {'Q0' 'xi' 'eta'};
 
-        para_vals = [sgm0, Q0, eta, xi]; 
+        para_vals = [Q0, xi, eta]; 
 
         for ID = 1:part_num
 
@@ -30,15 +24,15 @@ function [] = run_sim_mod12_changing_xi(sgm0, eta, Q0, xi_range)
             settings.task.Ngames_per_hor    = settings.task.N_games / settings.task.N_hor;
             settings.task.N_trees           = 3; 
             settings.opts.TLT               = [];
-            settings.funs.decfun            = @softmax;
-            settings.funs.valuefun          = @mvnorm_Thompson_noveltybonus_new; 
+            settings.funs.decfun            = @argmax;
+            settings.funs.valuefun          = @heuristics_noveltybonus; 
             settings.funs.priorfun          = [];
             settings.funs.learningfun       = @kalman_filt;
-            settings.desc                   = ['sim_thompson_noveltybonus' int2str(ID)];    
+            settings.desc                   = ['sim_heuristics_noveltybonus' int2str(ID)];    
             settings.params.param_names     = para_vals_desc;   
 
             % initialise model
-            mo = initialise_model_MF_S0fixed_eta_2sgm0(settings);
+            mo = initialise_model_MF_S0fixed_sgm0fixed_eta(settings);
 
             % fill in parameters, model-funs etc
             mo = prep_model_MF(mo,settings,para_vals,settings.params.param_names);

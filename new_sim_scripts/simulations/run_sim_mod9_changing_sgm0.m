@@ -1,25 +1,19 @@
 
-function [] = run_sim_mod12_changing_xi(sgm0, eta, Q0, xi_range)
-
-    sgm0 = 1.312;
-    eta = 2.625;
-    Q0 = 3.200;
+function [] = run_sim_mod9_changing_sgm0(Q0, sgm0_range)
 
     part_num = 200;
 
-    xi_range = 0:0.1:1;
-
-    sim_folder = strcat('../../../data/simulation_data/sim_prob_mod12/changing_xi/sgm0_',num2str(sgm0),'_Q0_',num2str(Q0),'_eta_',num2str(eta),'/');
+    sim_folder = strcat('../../../data/simulation_data/sim_prob_mod9/changing_sgm0/Q0_',num2str(Q0),'/');
 
     addpath('../../fit/holly/')
 
-    for xi_iter = 1:size(xi_range,2)
+    for sgm0_iter = 1:size(sgm0_range,2)
 
-        xi = xi_range(xi_iter);
+        sgm0 = sgm0_range(sgm0_iter);
 
-        para_vals_desc = {'sgm0', 'Q0', 'eta', 'xi'};
+        para_vals_desc = {'Q0', 'sgm0'};
 
-        para_vals = [sgm0, Q0, eta, xi]; 
+        para_vals = [Q0, sgm0]; 
 
         for ID = 1:part_num
 
@@ -31,7 +25,7 @@ function [] = run_sim_mod12_changing_xi(sgm0, eta, Q0, xi_range)
             settings.task.N_trees           = 3; 
             settings.opts.TLT               = [];
             settings.funs.decfun            = @softmax;
-            settings.funs.valuefun          = @mvnorm_Thompson_noveltybonus_new; 
+            settings.funs.valuefun          = @mvnorm_Thompson; 
             settings.funs.priorfun          = [];
             settings.funs.learningfun       = @kalman_filt;
             settings.desc                   = ['sim_thompson_noveltybonus' int2str(ID)];    
@@ -194,9 +188,9 @@ function [] = run_sim_mod12_changing_xi(sgm0, eta, Q0, xi_range)
 
             pi_SH_average_exploit = nansum(pi_SH_exploit,1)/(settings.task.N_games);
 
-            xi_file = strcat('xi_',num2str(xi_range(xi_iter)));
+            sgm0_file = strcat('sgm0_',num2str(sgm0_range(sgm0_iter)));
 
-            sim_data_dir = strcat(sim_folder,xi_file,'/participant_',int2str(ID),'/');
+            sim_data_dir = strcat(sim_folder,sgm0_file,'/participant_',int2str(ID),'/');
 
             if ~exist(sim_data_dir)
                 mkdir(sim_data_dir)
@@ -215,15 +209,15 @@ function [] = run_sim_mod12_changing_xi(sgm0, eta, Q0, xi_range)
 
         end
 
-        mat_mean_SEM_consistency(xi_iter,:) = [xi mean(mat_consistency) std(mat_consistency)/sqrt(part_num-1)];
+        mat_mean_SEM_consistency(sgm0_iter,:) = [sgm0 mean(mat_consistency) std(mat_consistency)/sqrt(part_num-1)];
 
-        mat_mean_SEM_tree_high(xi_iter,:) = [xi mean(mat_trees(:,1)) std(mat_trees(:,1))/sqrt(part_num-1)];
-        mat_mean_SEM_tree_medium(xi_iter,:) = [xi mean(mat_trees(:,2)) std(mat_trees(:,2))/sqrt(part_num-1)];
-        mat_mean_SEM_tree_novel(xi_iter,:) = [xi mean(mat_trees(:,3)) std(mat_trees(:,3))/sqrt(part_num-1)];
-        mat_mean_SEM_tree_low(xi_iter,:) = [xi mean(mat_trees(:,4)) std(mat_trees(:,4))/sqrt(part_num-1)];
+        mat_mean_SEM_tree_high(sgm0_iter,:) = [sgm0 mean(mat_trees(:,1)) std(mat_trees(:,1))/sqrt(part_num-1)];
+        mat_mean_SEM_tree_medium(sgm0_iter,:) = [sgm0 mean(mat_trees(:,2)) std(mat_trees(:,2))/sqrt(part_num-1)];
+        mat_mean_SEM_tree_novel(sgm0_iter,:) = [sgm0 mean(mat_trees(:,3)) std(mat_trees(:,3))/sqrt(part_num-1)];
+        mat_mean_SEM_tree_low(sgm0_iter,:) = [sgm0 mean(mat_trees(:,4)) std(mat_trees(:,4))/sqrt(part_num-1)];
 
-        mat_mean_SEM_tree_standard_certain(xi_iter,:) = [xi mean(mat_trees_bandits(:,1)) std(mat_trees_bandits(:,1))/sqrt(part_num-1)];
-        mat_mean_SEM_tree_standard(xi_iter,:) = [xi mean(mat_trees_bandits(:,2)) std(mat_trees_bandits(:,2))/sqrt(part_num-1)];
+        mat_mean_SEM_tree_standard_certain(sgm0_iter,:) = [sgm0 mean(mat_trees_bandits(:,1)) std(mat_trees_bandits(:,1))/sqrt(part_num-1)];
+        mat_mean_SEM_tree_standard(sgm0_iter,:) = [sgm0 mean(mat_trees_bandits(:,2)) std(mat_trees_bandits(:,2))/sqrt(part_num-1)];
 
     end
 
@@ -234,7 +228,6 @@ function [] = run_sim_mod12_changing_xi(sgm0, eta, Q0, xi_range)
     save(strcat(sim_folder,'mat_mean_SEM_tree_low.mat'), 'mat_mean_SEM_tree_low'); 
     save(strcat(sim_folder,'mat_mean_SEM_tree_standard_certain.mat'), 'mat_mean_SEM_tree_standard_certain');  
     save(strcat(sim_folder,'mat_mean_SEM_tree_standard.mat'), 'mat_mean_SEM_tree_standard'); 
-    
-end
  
+end
 
