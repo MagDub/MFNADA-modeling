@@ -1,23 +1,22 @@
 
-sgm0 = 1.312;
-xi = 0.1;
+
 Q0 = 3.200;
 
 part_num = 200;
 
-eta_range = 0:1:5;
+sgm0_range = 0.5:0.5:3;
 
-sim_folder = strcat('../../../data/simulation_data/sim_prob_mod12/changing_eta/sgm0_',num2str(sgm0),'_Q0_',num2str(Q0),'_xi_',num2str(xi),'/');
+sim_folder = strcat('../../../data/simulation_data/sim_prob_mod9/changing_sgm0/Q0_',num2str(Q0),'/');
 
 addpath('../../fit/holly/')
 
-for eta_iter = 1:size(eta_range,2)
+for sgm0_iter = 1:size(sgm0_range,2)
 
-    eta = eta_range(eta_iter);
+    sgm0 = sgm0_range(sgm0_iter);
 
-    para_vals_desc = {'sgm0', 'Q0', 'xi', 'eta'};
+    para_vals_desc = {'Q0', 'sgm0'};
     
-    para_vals = [sgm0, Q0, xi, eta]; 
+    para_vals = [Q0, sgm0]; 
 
     for ID = 1:part_num
 
@@ -29,7 +28,7 @@ for eta_iter = 1:size(eta_range,2)
         settings.task.N_trees           = 3; 
         settings.opts.TLT               = [];
         settings.funs.decfun            = @softmax;
-        settings.funs.valuefun          = @mvnorm_Thompson_noveltybonus_new; 
+        settings.funs.valuefun          = @mvnorm_Thompson; 
         settings.funs.priorfun          = [];
         settings.funs.learningfun       = @kalman_filt;
         settings.desc                   = ['sim_thompson_noveltybonus' int2str(ID)];    
@@ -192,9 +191,9 @@ for eta_iter = 1:size(eta_range,2)
 
         pi_SH_average_exploit = nansum(pi_SH_exploit,1)/(settings.task.N_games);
         
-        eta_file = strcat('eta_',num2str(eta_range(eta_iter)));
+        sgm0_file = strcat('sgm0_',num2str(sgm0_range(sgm0_iter)));
 
-        sim_data_dir = strcat(sim_folder,eta_file,'/participant_',int2str(ID),'/');
+        sim_data_dir = strcat(sim_folder,sgm0_file,'/participant_',int2str(ID),'/');
         
         if ~exist(sim_data_dir)
             mkdir(sim_data_dir)
@@ -213,15 +212,15 @@ for eta_iter = 1:size(eta_range,2)
         
     end
     
-    mat_mean_SEM_consistency(eta_iter,:) = [eta mean(mat_consistency) std(mat_consistency)/sqrt(part_num-1)];
+    mat_mean_SEM_consistency(sgm0_iter,:) = [sgm0 mean(mat_consistency) std(mat_consistency)/sqrt(part_num-1)];
     
-    mat_mean_SEM_tree_high(eta_iter,:) = [eta mean(mat_trees(:,1)) std(mat_trees(:,1))/sqrt(part_num-1)];
-    mat_mean_SEM_tree_medium(eta_iter,:) = [eta mean(mat_trees(:,2)) std(mat_trees(:,2))/sqrt(part_num-1)];
-    mat_mean_SEM_tree_novel(eta_iter,:) = [eta mean(mat_trees(:,3)) std(mat_trees(:,3))/sqrt(part_num-1)];
-    mat_mean_SEM_tree_low(eta_iter,:) = [eta mean(mat_trees(:,4)) std(mat_trees(:,4))/sqrt(part_num-1)];
+    mat_mean_SEM_tree_high(sgm0_iter,:) = [sgm0 mean(mat_trees(:,1)) std(mat_trees(:,1))/sqrt(part_num-1)];
+    mat_mean_SEM_tree_medium(sgm0_iter,:) = [sgm0 mean(mat_trees(:,2)) std(mat_trees(:,2))/sqrt(part_num-1)];
+    mat_mean_SEM_tree_novel(sgm0_iter,:) = [sgm0 mean(mat_trees(:,3)) std(mat_trees(:,3))/sqrt(part_num-1)];
+    mat_mean_SEM_tree_low(sgm0_iter,:) = [sgm0 mean(mat_trees(:,4)) std(mat_trees(:,4))/sqrt(part_num-1)];
     
-    mat_mean_SEM_tree_standard_certain(eta_iter,:) = [eta mean(mat_trees_bandits(:,1)) std(mat_trees_bandits(:,1))/sqrt(part_num-1)];
-    mat_mean_SEM_tree_standard(eta_iter,:) = [eta mean(mat_trees_bandits(:,2)) std(mat_trees_bandits(:,2))/sqrt(part_num-1)];
+    mat_mean_SEM_tree_standard_certain(sgm0_iter,:) = [sgm0 mean(mat_trees_bandits(:,1)) std(mat_trees_bandits(:,1))/sqrt(part_num-1)];
+    mat_mean_SEM_tree_standard(sgm0_iter,:) = [sgm0 mean(mat_trees_bandits(:,2)) std(mat_trees_bandits(:,2))/sqrt(part_num-1)];
 
 end
 
