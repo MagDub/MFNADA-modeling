@@ -1,6 +1,8 @@
 
 function [] = run_sim_mod16_changing_eta(xi, Q0, eta_range)
 
+    part_num = 200;
+
     sim_folder = strcat('../../../data/simulation_data/sim_prob_mod16/changing_eta/Q0_',num2str(Q0),'_xi_',num2str(xi),'/');
 
     addpath('../../fit/holly/')
