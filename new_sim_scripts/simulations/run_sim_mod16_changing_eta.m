@@ -17,7 +17,7 @@ function [] = run_sim_mod16_changing_eta(xi, Q0, eta_range)
 
         for ID = 1:part_num
 
-            % settings
+%             settings
             settings = [];
             settings.task.N_games           = 200;
             settings.task.N_hor             = 1;
@@ -31,16 +31,16 @@ function [] = run_sim_mod16_changing_eta(xi, Q0, eta_range)
             settings.desc                   = ['sim_heuristics_noveltybonus' int2str(ID)];    
             settings.params.param_names     = para_vals_desc;   
 
-            % initialise model
+%             initialise model
             mo = initialise_model_MF_S0fixed_sgm0fixed_eta(settings);
 
-            % fill in parameters, model-funs etc
+%             fill in parameters, model-funs etc
             mo = prep_model_MF(mo,settings,para_vals,settings.params.param_names);
 
-            % Generate apple sequences
+%             Generate apple sequences
             [params, user] = apple_params_for_mod();
 
-            % Write the log file needed for aggregation
+%             Write the log file needed for aggregation
             for b = 1:params.task.exp.n_blocks
                 for g = 1:params.task.exp.n_trialPB
                     [user, params] = present_applesSIM(params, user, b, g);
@@ -49,16 +49,16 @@ function [] = run_sim_mod16_changing_eta(xi, Q0, eta_range)
 
             [data,gameIDs] = aggregateDataSIM(params, user);
 
-            % 1 horizon
+%             1 horizon
             data = data(1,:);
             gameIDs = gameIDs(1,:);
 
-            % loop through trials (and conditions) to generate behaviour
+%             loop through trials (and conditions) to generate behaviour
             for g = 1:settings.task.Ngames_per_hor       
 
                 data(1,g).gameID = gameIDs(1,g);
 
-                % data
+%                 data
                 tmp_dat = data(1,g);
 
                 if tmp_dat.unshown_tree == 1
@@ -71,7 +71,7 @@ function [] = run_sim_mod16_changing_eta(xi, Q0, eta_range)
                     tmp_dat = rmfield(tmp_dat,'d');
                 end
 
-                % loop through trials of game
+%                 loop through trials of game
                 for t = 1:size(tmp_dat.alltrees,1)+1 %CHANGED
 
                     mo.mat.appleA{1,g} = data(1,g).a;
@@ -95,14 +95,14 @@ function [] = run_sim_mod16_changing_eta(xi, Q0, eta_range)
                         mo.mat.sgm{1,g}(:,t) = mo.params.sgm0(1);
                     end
 
-                    % see outcome and learn
+%                     see outcome and learn
                     if t <= size(tmp_dat.alltrees,1) %CHANGED
                         mo = mo.funs.learningfun(mo,tmp_dat,1,g,t);
                     else
-                        % calculate values & policy
+%                         calculate values & policy
                         mo = mo.funs.valuefun(mo,1,g,t);
 
-                        % add lapse if needed
+%                         add lapse if needed
                         if ~isempty(mo.params.xi) %epsilon greedy
                             mo = lapse(mo,1,g,t);
                         end
@@ -111,7 +111,7 @@ function [] = run_sim_mod16_changing_eta(xi, Q0, eta_range)
 
                 tmp_pi = nanmean(mo.mat.pi{1,g},2);
 
-                %  policy
+%                  policy
                 tmp_pi_SH = nanmean(mo.mat.pi{1,g},2)'; 
 
                 if tmp_dat.unshown_tree == 1
@@ -163,7 +163,7 @@ function [] = run_sim_mod16_changing_eta(xi, Q0, eta_range)
                 end 
 
 
-                % make choice based on policy
+%                 make choice based on policy
                 r = rand(1);    % random choice seed
                 tmp_cPi = cumsum(tmp_pi);
                 tmp_chosen = find(tmp_cPi>=r,1,'first');
@@ -188,9 +188,9 @@ function [] = run_sim_mod16_changing_eta(xi, Q0, eta_range)
 
             pi_SH_average_exploit = nansum(pi_SH_exploit,1)/(settings.task.N_games);
 
-            xi_file = strcat('xi_',num2str(eta_range(eta_iter)));
+            eta_file = strcat('eta_',num2str(eta_range(eta_iter)));
 
-            sim_data_dir = strcat(sim_folder,xi_file,'/participant_',int2str(ID),'/');
+            sim_data_dir = strcat(sim_folder,eta_file,'/participant_',int2str(ID),'/');
 
             if ~exist(sim_data_dir)
                 mkdir(sim_data_dir)
@@ -209,15 +209,15 @@ function [] = run_sim_mod16_changing_eta(xi, Q0, eta_range)
 
         end
 
-        mat_mean_SEM_consistency(eta_iter,:) = [xi mean(mat_consistency) std(mat_consistency)/sqrt(part_num-1)];
+        mat_mean_SEM_consistency(eta_iter,:) = [eta mean(mat_consistency) std(mat_consistency)/sqrt(part_num-1)];
 
-        mat_mean_SEM_tree_high(eta_iter,:) = [xi mean(mat_trees(:,1)) std(mat_trees(:,1))/sqrt(part_num-1)];
-        mat_mean_SEM_tree_medium(eta_iter,:) = [xi mean(mat_trees(:,2)) std(mat_trees(:,2))/sqrt(part_num-1)];
-        mat_mean_SEM_tree_novel(eta_iter,:) = [xi mean(mat_trees(:,3)) std(mat_trees(:,3))/sqrt(part_num-1)];
-        mat_mean_SEM_tree_low(eta_iter,:) = [xi mean(mat_trees(:,4)) std(mat_trees(:,4))/sqrt(part_num-1)];
+        mat_mean_SEM_tree_high(eta_iter,:) = [eta mean(mat_trees(:,1)) std(mat_trees(:,1))/sqrt(part_num-1)];
+        mat_mean_SEM_tree_medium(eta_iter,:) = [eta mean(mat_trees(:,2)) std(mat_trees(:,2))/sqrt(part_num-1)];
+        mat_mean_SEM_tree_novel(eta_iter,:) = [eta mean(mat_trees(:,3)) std(mat_trees(:,3))/sqrt(part_num-1)];
+        mat_mean_SEM_tree_low(eta_iter,:) = [eta mean(mat_trees(:,4)) std(mat_trees(:,4))/sqrt(part_num-1)];
 
-        mat_mean_SEM_tree_standard_certain(eta_iter,:) = [xi mean(mat_trees_bandits(:,1)) std(mat_trees_bandits(:,1))/sqrt(part_num-1)];
-        mat_mean_SEM_tree_standard(eta_iter,:) = [xi mean(mat_trees_bandits(:,2)) std(mat_trees_bandits(:,2))/sqrt(part_num-1)];
+        mat_mean_SEM_tree_standard_certain(eta_iter,:) = [eta mean(mat_trees_bandits(:,1)) std(mat_trees_bandits(:,1))/sqrt(part_num-1)];
+        mat_mean_SEM_tree_standard(eta_iter,:) = [eta mean(mat_trees_bandits(:,2)) std(mat_trees_bandits(:,2))/sqrt(part_num-1)];
 
     end
 
