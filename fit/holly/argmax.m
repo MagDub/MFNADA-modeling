@@ -5,6 +5,7 @@ function pi = argmax(Vs,mo,idx_hor)
     pi = zeros(size(Vs));
 
     pi(ind) = 1; 
+    
         
 end
 
