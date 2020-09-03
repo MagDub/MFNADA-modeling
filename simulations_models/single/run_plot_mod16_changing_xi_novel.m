@@ -5,7 +5,7 @@ Q0_mat = 5;
 
 part_num = 200;
 
-sim_folder = strcat('../../data/simulation_data/sim_prob_mod16/changing_xi/Q0_',num2str(Q0_mat),'_eta_',num2str(eta_mat),'/');
+sim_folder = strcat('../../../data/simulation_data/sim_prob_mod16/changing_xi/Q0_',num2str(Q0_mat),'_eta_',num2str(eta_mat),'/');
 
 load(strcat(sim_folder,'mat_mean_SEM_tree_novel.mat'));  
 

@@ -1,11 +1,11 @@
 
 % heuristic model 
-tau_mat = 1;
+tau_mat = 0.5;
 Q0_mat = 5;
 
 part_num = 200;
 
-sim_folder = strcat('../../data/simulation_data/sim_prob_mod5/changing_gamma/tau_',num2str(tau_mat),'_Q0_',num2str(Q0_mat),'/');
+sim_folder = strcat('../../../data/simulation_data/sim_prob_mod5/changing_gamma/tau_',num2str(tau_mat),'_Q0_',num2str(Q0_mat),'/');
                                                
 load(strcat(sim_folder,'mat_mean_SEM_tree_low.mat'));  
 
@@ -31,14 +31,14 @@ errorbar([0,2],mat_mean_SEM_tree_low([ind_1 ind_2],2),mat_mean_SEM_tree_low([ind
 ylabel('Proportion of draws [%]','FontName','Arial','Fontweight','bold','FontSize',9);
 title('Low-value bandit')
 
-ylim([0 70.5])
+ylim([0 20.5])
 xlim([-1.5 3.5])
 xticks([0 2])
 xticklabels({'Low','High'});
-yticks(0:15:75)
+yticks(0:5:75)
 
 
-addpath('../../export_fig/')
+addpath('../../../export_fig/')
 export_fig('Fig_UCB_low_gamma.tif','-nocrop','-r200')
 
 

@@ -5,12 +5,12 @@ Q0_mat = 5;
 
 part_num = 200;
 
-sim_folder = strcat('../../data/simulation_data/sim_prob_mod5/changing_tau/gamma_',num2str(gamma_mat),'_Q0_',num2str(Q0_mat),'/');
+sim_folder = strcat('../../../data/simulation_data/sim_prob_mod5/changing_tau/gamma_',num2str(gamma_mat),'_Q0_',num2str(Q0_mat),'/');
                                                
 load(strcat(sim_folder,'mat_mean_SEM_tree_low.mat'));  
 
-dec_num_1 = mat_mean_SEM_consistency(1,1);
-dec_num_2 = mat_mean_SEM_consistency(2,1);
+dec_num_1 = mat_mean_SEM_tree_low(1,1);
+dec_num_2 = mat_mean_SEM_tree_low(2,1);
 
 tau_1 = dec_num_1;
 tau_2 = dec_num_2;
@@ -38,7 +38,7 @@ xticklabels({'Low','High'});
 yticks(0:5:15)
 
 
-addpath('../../export_fig/')
+addpath('../../../export_fig/')
 export_fig('Fig_UCB_low_tau.tif','-nocrop','-r200')
 
 

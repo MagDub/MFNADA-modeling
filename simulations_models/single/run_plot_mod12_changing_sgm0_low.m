@@ -1,14 +1,14 @@
 
-xi_mat = 0.1;
-eta_mat = 2.625;
-Q0_mat = 3.200;
+xi_mat = 0;
+eta_mat = 0;
+Q0_mat = 5;
 
 part_num = 200;
 
-sgm0_1 = 0.5;
-sgm0_2 = 1.5;
+sgm0_1 = mat_mean_SEM_tree_low(1,1);
+sgm0_2 = mat_mean_SEM_tree_low(2,1);
 
-sim_folder = strcat('../../data/simulation_data/sim_prob_mod12/changing_sgm0/eta_',num2str(eta_mat),'_Q0_',num2str(Q0_mat),'_xi_',num2str(xi_mat),'/');
+sim_folder = strcat('../../../data/simulation_data/sim_prob_mod12/changing_sgm0/eta_',num2str(eta_mat),'_Q0_',num2str(Q0_mat),'_xi_',num2str(xi_mat),'/');
                                                
 load(strcat(sim_folder,'mat_mean_SEM_tree_low.mat'));  
 
@@ -34,7 +34,7 @@ xticks([0 2])
 xticklabels({'Low','High'});
 yticks(0:5:15)
 
-addpath('../../export_fig/')
+addpath('../../../export_fig/')
 export_fig('Fig_mod12_low_sgm0.tif','-nocrop','-r200')
 
 
