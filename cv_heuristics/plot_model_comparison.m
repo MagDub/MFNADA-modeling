@@ -157,7 +157,7 @@ er = errorbar(x,mean_all(I)*100,stderror_all(I)*100,stderror_all(I)*100);
 er.Color = [0 0 0];                            
 er.LineStyle = 'none';  
 ylabel('Held-out data likelihood [%]')
-yrange = [55 57]; 
+yrange = [50 57]; 
 ylim(yrange)
 xticks(x)
 xticklabels(mod.legend(I));

@@ -13,8 +13,18 @@ Q0 = 5;
 % eta = 2;
 % run_sim_mod12_changing_sgm0(sgm0_range, xi, Q0, eta)
 
-tau_range = linspace(0.01,1,5);
-run_sim_softmax_changing_tau(tau_range, Q0)
+%tau_range = linspace(0.01,1,5);
+%run_sim_softmax_changing_tau(tau_range, Q0)
+
+% tau_range = linspace(0.001,3,14);
+% run_sim_softmax_changing_tau_2(tau_range, Q0)
+
+tau_range = linspace(1,1.5,5);
+run_sim_softmax_changing_tau_ABD(tau_range, Q0)
+
+% xi_range = linspace(0,1,5);
+% run_sim_egreedy_changing_xi_ABD(xi_range, Q0)
+
 
 % xi_range = linspace(0,1,5);
 % run_sim_egreedy_changing_xi(xi_range, Q0)
