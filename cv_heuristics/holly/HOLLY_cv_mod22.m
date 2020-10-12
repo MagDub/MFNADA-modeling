@@ -1,10 +1,11 @@
-function HOLLY_cv_mod17(ID, data_fol)
+function HOLLY_cv_mod22(ID, data_fol)
 
     %%%%%%% k-fold validation indexes %%%%%%%
     tot_trials = 200;
     Kf = 10;
 
     trials_tested_on = tot_trials / Kf;
+    
     trials_trained_on = tot_trials - trials_tested_on ;
 
     range_test_mat = nan(Kf,trials_tested_on);
@@ -25,11 +26,13 @@ function HOLLY_cv_mod17(ID, data_fol)
         range_train = range_train_mat(k,:);
 
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        param_bounds_sgm0 = [0.01,6];
         param_bounds_Q0 = [1,10]; 
         param_bounds_tau = [10^-8,7];
+        param_bounds_xi = [10^-8,0.5];
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-        algo = 'mod_17'; % V=0 for all -> softmax       
+        algo = 'mod_22'; % thompson + softmax
 
         results_dir = strcat(data_fol, '/crossval/',algo,'/results/'); 
 
@@ -45,13 +48,13 @@ function HOLLY_cv_mod17(ID, data_fol)
         settings.task.N_trees           = 3;
         settings.opts.TLT               = [];
         settings.funs.decfun            = @softmax;
-        settings.funs.valuefun          = @nullvalue;
+        settings.funs.valuefun          = @mvnorm_Thompson_softmax;
         settings.funs.priorfun          = [];
         settings.funs.learningfun       = @kalman_filt;
-        settings.desc                   = ['mod17'];    
-        settings.params.param_names     = {'Q0'  'tau' ''};   
-        settings.params.lb              = [param_bounds_Q0(1)  param_bounds_tau(1) param_bounds_tau(1)];    
-        settings.params.ub              = [param_bounds_Q0(2)  param_bounds_tau(2) param_bounds_tau(2)];       
+        settings.desc                   = ['mod22'];    
+        settings.params.param_names     = {'xi', '', 'sgm0', '', 'Q0', 'tau',''};   
+        settings.params.lb              = [param_bounds_xi(1)   param_bounds_xi(1) param_bounds_sgm0(1) param_bounds_sgm0(1)  param_bounds_Q0(1) param_bounds_tau(1) param_bounds_tau(1)];    % lower bound
+        settings.params.ub              = [param_bounds_xi(2)   param_bounds_xi(2) param_bounds_sgm0(2) param_bounds_sgm0(2)  param_bounds_Q0(2) param_bounds_tau(2) param_bounds_tau(2)];    % upper bound
 
         %% get data
         data_dir = strcat(data_fol, '/data/');
@@ -61,7 +64,7 @@ function HOLLY_cv_mod17(ID, data_fol)
         data_train = data(1:2,range_train);
         gameIDs_train = gameIDs(1:2,range_train);
 
-        modelfun = @(x) modelMF_S0fixed_sgm0fixed_crossval(x,settings.params.param_names,ID,settings,data_train,gameIDs_train, 1, trials_trained_on);  
+        modelfun = @(x) modelMF_S0fixed_crossval_2sgm0(x,settings.params.param_names,ID,settings,data_train,gameIDs_train, 1, trials_trained_on);  
 
         %%%%%%%% fmincon %%%%%%%%
         options = optimoptions('fmincon','Display','off');
@@ -89,8 +92,8 @@ function HOLLY_cv_mod17(ID, data_fol)
         %% tidy up  
         mEsubj = ID;
         [mEmle, ind]= min(mEmatmle);
-        mEparams  = mEmatparams(ind,:);
-        mEexitflag = mEexitflag(ind);
+        mEparams  = mEmatparams(ind(1),:);
+        mEexitflag = mEexitflag(ind(1));
 
         %% save
         save_func_data(ID+k*1000, settings, results_dir, mEparams, mEmle, [], mEexitflag, mEsubj, [], [], mEmatparams, mEmatmle,[])
@@ -99,7 +102,7 @@ function HOLLY_cv_mod17(ID, data_fol)
         data_test = data(1:2,range_test);
         gameIDs_test = gameIDs(1:2,range_test);
 
-        [test_nLogL, ~, ~] = modelMF_S0fixed_sgm0fixed_crossval(mEparams,settings.params.param_names,ID,settings,data_test,gameIDs_test, 1, trials_tested_on);
+        [test_nLogL, ~, ~] = modelMF_S0fixed_crossval_2sgm0(mEparams,settings.params.param_names,ID,settings,data_test,gameIDs_test, 1, trials_tested_on);
         average_prob(k) = exp(-test_nLogL/(2*trials_tested_on));
     end
 

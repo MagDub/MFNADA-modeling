@@ -55,15 +55,76 @@ mod.model_type{model} = 'heuristics';
 mod.name{model} = 'heuristics';
 mod.legend{model} = 'argmax + \eta + \epsilon'; 
 
+%%%%%%%%%%%%%
+% NULLVALUE %
+%%%%%%%%%%%%%
+% 17
+model = model + 1;
+mod.file_name{model} = '../../data/crossval/mod_17/results/aver_prob_';
+mod.model_type{model} = 'mod17';
+mod.name{model} = 'nullvalue';
+mod.legend{model} = 'null value'; 
+%%%%%%
+% 18
+model = model + 1;
+mod.file_name{model} = '../../data/crossval/mod_18/results/aver_prob_';
+mod.model_type{model} = 'mod18';
+mod.name{model} = 'nullvalue';
+mod.legend{model} = 'null value + \epsilon';
+% 19
+model = model + 1;
+mod.file_name{model} = '../../data/crossval/mod_19/results/aver_prob_';
+mod.model_type{model} = 'mod19';
+mod.name{model} = 'nullvalue';
+mod.legend{model} = 'null value + \eta'; 
+%%%%%%
+% 20
+model = model + 1;
+mod.file_name{model} = '../../data/crossval/mod_20/results/aver_prob_';
+mod.model_type{model} = 'mod20';
+mod.name{model} = 'nullvalue';
+mod.legend{model} = 'null value + \epsilon + \eta'; 
+
+%%%%%%%%%%%%%%%%%%%
+% ThompsonSoftmax %
+%%%%%%%%%%%%%%%%%%%
+% 21
+model = model + 1;
+mod.file_name{model} = '../../data/crossval/mod_21/results/aver_prob_';
+mod.model_type{model} = 'mod21';
+mod.name{model} = 'thompsonsoftmax';
+mod.legend{model} = 'thompson + softmax'; 
+%%%%%%
+% 22
+model = model + 1;
+mod.file_name{model} = '../../data/crossval/mod_22/results/aver_prob_';
+mod.model_type{model} = 'mod22';
+mod.name{model} = 'thompsonsoftmax';
+mod.legend{model} = 'thompson + softmax + \epsilon';
+% 23
+model = model + 1;
+mod.file_name{model} = '../../data/crossval/mod_23/results/aver_prob_';
+mod.model_type{model} = 'mod23';
+mod.name{model} = 'thompson + softmax';
+mod.legend{model} = 'thompson + softmax + \eta'; 
+%%%%%%
+% 24
+model = model + 1;
+mod.file_name{model} = '../../data/crossval/mod_24/results/aver_prob_';
+mod.model_type{model} = 'mod24';
+mod.name{model} = 'nullvalue';
+mod.legend{model} = 'thompson + softmax + \epsilon + \eta'; 
+
 
 %% Plotting  
+n_model = model;
 average_prob_mat = [];
-mean_all=nan(1,16);
-mean_all_pp=nan(length(participant_list),16);
-stderror_all=nan(1,16);
-number_par_all=zeros(1,16);
+mean_all=nan(1,n_model);
+mean_all_pp=nan(length(participant_list),n_model);
+stderror_all=nan(1,n_model);
+number_par_all=zeros(1,n_model);
 
-for model = 13:size(mod.file_name,2)
+for model = 13:n_model
     
     dirData = dir(strcat(mod.file_name{model},'*.mat'));
     
@@ -101,13 +162,12 @@ for model = 13:size(mod.file_name,2)
     mean_av_prob = nanmean(average_prob_mat,2); % average over k iterations
     
     mod.mean_pp{model} = mean_av_prob;
-
     
     clear mean_av_prob
     
 end
 
-for model = 1:16
+for model = 1:n_model
     
     mod.legend{model} = mod.legend{model};
     
@@ -121,9 +181,9 @@ for model = 1:16
 end
 
 % remove 506
-mean_all_pp(6,:) = nan(1,16);
+mean_all_pp(6,:) = nan(1,n_model);
 
-for model = 1:16
+for model = 1:n_model
     
     mod.mean_all{model} = nanmean(mean_all_pp(:,model));
     mod.stderror_all{model} = nanstd(mean_all_pp(:,model)) / sqrt(mod.number_par{model});
@@ -134,7 +194,6 @@ for model = 1:16
     number_par_all(model) = mod.number_par{model};
     
 end
-
 
 % Figure
 figure('Color','w');
@@ -147,7 +206,7 @@ col_(2,:) = [0.5816313750267029 0.3882353007793163 0.3882353007793163];
 col_(3,:) = [0.6716509823322296 0.16235291616322708 0.16235291616322708];
 
 
-x = [1:4 6:9 11:14 16:19];
+x = [1:4 6:9 11:14 16:19 21:24 26:29];
 
 I = 1:1:size(mean_all,2); 
 
@@ -157,21 +216,21 @@ er = errorbar(x,mean_all(I)*100,stderror_all(I)*100,stderror_all(I)*100);
 er.Color = [0 0 0];                            
 er.LineStyle = 'none';  
 ylabel('Held-out data likelihood [%]')
-yrange = [50 57]; 
+yrange = [52 57]; 
 ylim(yrange)
 xticks(x)
 xticklabels(mod.legend(I));
 xtickangle(45)
-set(gca,'YTick',0:2:100)
+set(gca,'YTick',0:1:100)
+grid on;
 
 hold off
 
-
-save('model_selection_heuristics.mat', 'mod')
-save('mean_all_pp_heuristics.mat', 'mean_all_pp')
-
-save('../../data/data_for_figs/model_selection_heuristics.mat', 'mod')
-save('../../data/data_for_figs/mean_all_pp_heuristics.mat', 'mean_all_pp')
+% save('model_selection_heuristics.mat', 'mod')
+% save('mean_all_pp_heuristics.mat', 'mean_all_pp')
+% 
+% save('../../data/data_for_figs/model_selection_heuristics.mat', 'mod')
+% save('../../data/data_for_figs/mean_all_pp_heuristics.mat', 'mean_all_pp')
 
 % % Export
 % addpath('../../export_fig')

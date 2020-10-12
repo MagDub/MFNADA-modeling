@@ -1,4 +1,4 @@
-function HOLLY_cv_mod17(ID, data_fol)
+function HOLLY_cv_mod18(ID, data_fol)
 
     %%%%%%% k-fold validation indexes %%%%%%%
     tot_trials = 200;
@@ -26,10 +26,11 @@ function HOLLY_cv_mod17(ID, data_fol)
 
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         param_bounds_Q0 = [1,10]; 
+        param_bounds_xi = [10^-8,0.5]; 
         param_bounds_tau = [10^-8,7];
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-        algo = 'mod_17'; % V=0 for all -> softmax       
+        algo = 'mod_18'; % V=0 for all -> softmax       
 
         results_dir = strcat(data_fol, '/crossval/',algo,'/results/'); 
 
@@ -48,10 +49,10 @@ function HOLLY_cv_mod17(ID, data_fol)
         settings.funs.valuefun          = @nullvalue;
         settings.funs.priorfun          = [];
         settings.funs.learningfun       = @kalman_filt;
-        settings.desc                   = ['mod17'];    
-        settings.params.param_names     = {'Q0'  'tau' ''};   
-        settings.params.lb              = [param_bounds_Q0(1)  param_bounds_tau(1) param_bounds_tau(1)];    
-        settings.params.ub              = [param_bounds_Q0(2)  param_bounds_tau(2) param_bounds_tau(2)];       
+        settings.desc                   = ['mod18'];    
+        settings.params.param_names     = {'Q0'   'xi'   '' 'tau' ''};   
+        settings.params.lb              = [param_bounds_Q0(1)  param_bounds_xi(1) param_bounds_xi(1) param_bounds_tau(1) param_bounds_tau(1)];    
+        settings.params.ub              = [param_bounds_Q0(2)  param_bounds_xi(2) param_bounds_xi(2) param_bounds_tau(2) param_bounds_tau(2)];       
 
         %% get data
         data_dir = strcat(data_fol, '/data/');
