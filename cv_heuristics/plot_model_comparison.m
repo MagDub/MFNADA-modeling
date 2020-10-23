@@ -24,36 +24,36 @@ mod.legend{10} = 'hybrid + \epsilon';
 mod.legend{11} = 'hybrid + \eta';
 mod.legend{12} = 'hybrid + \epsilon + \eta';
 
-%%%%%%%%%%
-% ARGMAX %
-%%%%%%%%%%
-% 13
-model = model + 1;
-mod.file_name{model} = '../../data/crossval/mod_13/results/aver_prob_';
-mod.model_type{model} = 'heuristics';
-mod.name{model} = 'heuristics';
-mod.legend{model} = 'argmax'; 
-%%%%%%
-% 14
-model = model + 1;
-mod.file_name{model} = '../../data/crossval/mod_14/results/aver_prob_';
-mod.model_type{model} = 'heuristics';
-mod.name{model} = 'heuristics';
-mod.legend{model} = 'argmax + \epsilon';
-%%%%%
-% 15
-model = model + 1;
-mod.file_name{model} = '../../data/crossval/mod_15/results/aver_prob_';
-mod.model_type{model} = 'heuristics';
-mod.name{model} = 'heuristics';
-mod.legend{model} = 'argmax + \eta'; 
-%%%%%
-% 16
-model = model + 1;
-mod.file_name{model} = '../../data/crossval/mod_16/results/aver_prob_';
-mod.model_type{model} = 'heuristics';
-mod.name{model} = 'heuristics';
-mod.legend{model} = 'argmax + \eta + \epsilon'; 
+% %%%%%%%%%%
+% % ARGMAX %
+% %%%%%%%%%%
+% % 13
+% model = model + 1;
+% mod.file_name{model} = '../../data/crossval/mod_13/results/aver_prob_';
+% mod.model_type{model} = 'heuristics';
+% mod.name{model} = 'heuristics';
+% mod.legend{model} = 'argmax'; 
+% %%%%%%
+% % 14
+% model = model + 1;
+% mod.file_name{model} = '../../data/crossval/mod_14/results/aver_prob_';
+% mod.model_type{model} = 'heuristics';
+% mod.name{model} = 'heuristics';
+% mod.legend{model} = 'argmax + \epsilon';
+% %%%%%
+% % 15
+% model = model + 1;
+% mod.file_name{model} = '../../data/crossval/mod_15/results/aver_prob_';
+% mod.model_type{model} = 'heuristics';
+% mod.name{model} = 'heuristics';
+% mod.legend{model} = 'argmax + \eta'; 
+% %%%%%
+% % 16
+% model = model + 1;
+% mod.file_name{model} = '../../data/crossval/mod_16/results/aver_prob_';
+% mod.model_type{model} = 'heuristics';
+% mod.name{model} = 'heuristics';
+% mod.legend{model} = 'argmax + \eta + \epsilon'; 
 
 %%%%%%%%%%%%%
 % NULLVALUE %
@@ -115,6 +115,35 @@ mod.model_type{model} = 'mod24';
 mod.name{model} = 'nullvalue';
 mod.legend{model} = 'thompson + softmax + \epsilon + \eta'; 
 
+%%%%%%%%%%%%%%%%%%%
+% UCBArgmax %
+%%%%%%%%%%%%%%%%%%%
+% 21
+model = model + 1;
+mod.file_name{model} = '../../data/crossval/mod_25/results/aver_prob_';
+mod.model_type{model} = 'mod25';
+mod.name{model} = 'UCBargmax';
+mod.legend{model} = 'UCB + argmax'; 
+%%%%%%
+% 22
+model = model + 1;
+mod.file_name{model} = '../../data/crossval/mod_26/results/aver_prob_';
+mod.model_type{model} = 'mod26';
+mod.name{model} = 'UCBargmax';
+mod.legend{model} = 'UCB + argmax + \epsilon';
+% 23
+model = model + 1;
+mod.file_name{model} = '../../data/crossval/mod_27/results/aver_prob_';
+mod.model_type{model} = 'mod27';
+mod.name{model} = 'UCBargmax';
+mod.legend{model} = 'UCB + argmax + \eta'; 
+%%%%%%
+% 24
+model = model + 1;
+mod.file_name{model} = '../../data/crossval/mod_28/results/aver_prob_';
+mod.model_type{model} = 'mod28';
+mod.name{model} = 'UCBargmax';
+mod.legend{model} = 'UCB + argmax + \epsilon + \eta'; 
 
 %% Plotting  
 n_model = model;
@@ -216,7 +245,7 @@ er = errorbar(x,mean_all(I)*100,stderror_all(I)*100,stderror_all(I)*100);
 er.Color = [0 0 0];                            
 er.LineStyle = 'none';  
 ylabel('Held-out data likelihood [%]')
-yrange = [52 57]; 
+yrange = [30 57]; 
 ylim(yrange)
 xticks(x)
 xticklabels(mod.legend(I));
@@ -226,11 +255,11 @@ grid on;
 
 hold off
 
-% save('model_selection_heuristics.mat', 'mod')
-% save('mean_all_pp_heuristics.mat', 'mean_all_pp')
-% 
-% save('../../data/data_for_figs/model_selection_heuristics.mat', 'mod')
-% save('../../data/data_for_figs/mean_all_pp_heuristics.mat', 'mean_all_pp')
+save('model_selection_heuristics.mat', 'mod')
+save('mean_all_pp_heuristics.mat', 'mean_all_pp')
+
+save('../../data/data_for_figs/model_selection_heuristics.mat', 'mod')
+save('../../data/data_for_figs/mean_all_pp_heuristics.mat', 'mean_all_pp')
 
 % % Export
 % addpath('../../export_fig')

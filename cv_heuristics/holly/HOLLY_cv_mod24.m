@@ -49,7 +49,7 @@ function HOLLY_cv_mod24(ID, data_fol)
         settings.task.N_trees           = 3;
         settings.opts.TLT               = [];
         settings.funs.decfun            = @softmax;
-        settings.funs.valuefun          = @mvnorm_Thompson_softmax;
+        settings.funs.valuefun          = @mvnorm_Thompson_softmax_noveltybonus;
         settings.funs.priorfun          = [];
         settings.funs.learningfun       = @kalman_filt;
         settings.desc                   = ['mod24'];    

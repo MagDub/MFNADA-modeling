@@ -1,16 +1,16 @@
 
-sgm0 = 1.312;
-xi = 0;
+% sgm0 = 1.312;
+xi = 0.2; % 
 Q0 = 5;
-tau = 0.5;
-eta = 0;
-gamma = 0;
+tau = 0.7; % (1/beta)
+% eta = 0;
+% gamma = 0;
 
-eta_range = 0:1:5;
-gamma_range = 0.1:0.5:3.5;
-sgm0_range = 0.8:0.4:1.8;
-tau_range = 0.1:0.5:3.5;
-xi_range = 0:0.1:1;
+% eta_range = 0:1:5;
+gamma_range = [0.7, 1.5];
+% sgm0_range = 0.8:0.4:1.8;
+% tau_range = 0.2:0.5:0.7;
+% xi_range = 0:0.1:1;
 
 % % mod 12 (thompson+xi+eta)
 % run_sim_mod12_changing_eta(sgm0, xi, Q0, eta_range)
@@ -18,7 +18,7 @@ xi_range = 0:0.1:1;
 % run_sim_mod12_changing_sgm0(sgm0_range, xi, Q0, eta)
 
 % mod 5 (ucb)
-run_sim_mod5_changing_gamma(tau, Q0, gamma_range)
+run_sim_mod5_changing_gamma_xi(tau, xi, Q0, gamma_range)
 % run_sim_mod5_changing_tau(gamma, Q0, tau_range)
 
 % % mod 16 (argmax+xi+eta) 
